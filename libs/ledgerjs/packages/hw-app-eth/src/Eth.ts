@@ -1201,9 +1201,9 @@ export default class Eth {
    * @param signature signature for the plugin
    * @returns a boolean
    */
-  setExternalPlugin(payload: string, signature: string): Promise<boolean> {
+  setExternalPlugin(payload: string, signature?: string): Promise<boolean> {
     const payloadBuffer = Buffer.from(payload, "hex");
-    const signatureBuffer = Buffer.from(signature, "hex");
+    const signatureBuffer = Buffer.from(signature ?? "", "hex");
     const buffer = Buffer.concat([payloadBuffer, signatureBuffer]);
     return this.transport.send(0xe0, 0x12, 0x00, 0x00, buffer).then(
       () => true,

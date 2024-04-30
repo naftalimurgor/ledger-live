@@ -1,8 +1,10 @@
-import { Transaction } from "ethers";
+import { Transaction, ethers } from "ethers";
 import Transport from "@ledgerhq/hw-transport";
 import AppBinding from "@ledgerhq/hw-app-eth";
 import { ForwardDomainOptions } from "@ledgerhq/context-module/lib/models/LoaderOptions";
 import { EIP712Message } from "../../types-live/lib";
+import { ContextResponse } from "@ledgerhq/context-module/lib/models/ContextResponse";
+import { DefaultContextModule } from "@ledgerhq/context-module";
 
 type SignTransactionArgs = {
   derivationPath: string;
@@ -39,12 +41,35 @@ export class DefaultEthKeyring implements EthKeyring {
     this._appBinding = new AppBinding(transport);
   }
 
-  public async signTransaction({
-    derivationPath: _derivationPath,
-    transaction: _transaction,
-    options: _options,
-  }: SignTransactionArgs) {
-    return Promise.resolve({ r: "0x", s: "0x", v: 0 } as EcdsaSignature);
+  public async signTransaction({ derivationPath, transaction, options }: SignTransactionArgs) {
+    const challenge = await this._appBinding.getChallenge();
+
+    const contextModule = new DefaultContextModule();
+    const contexts: ContextResponse[] = await contextModule.getContexts(transaction, {
+      challenge,
+      forwardDomainOptions: options?.forwardDomainOptions,
+    });
+
+    for (const context of contexts) {
+      if (context.type === "error") {
+        // TODO: handle error here
+        continue;
+      }
+
+      await this._appBinding[context.type](context.payload);
+    }
+
+    const response = await this._appBinding.signTransaction(
+      derivationPath,
+      ethers.utils.serializeTransaction(transaction),
+      null, // context is already fetched by context-module
+    );
+
+    return {
+      r: `0x${response.r}`,
+      s: `0x${response.s}`,
+      v: parseInt(response.v, 16),
+    } as EcdsaSignature;
   }
 
   public async signMessage({

@@ -1,5 +1,6 @@
 export type ContextResponse =
   | {
+      // TODO: improve typing with Eth class functions + filter
       type:
         | "provideERC20TokenInformation"
         | "provideNFTInformation"
