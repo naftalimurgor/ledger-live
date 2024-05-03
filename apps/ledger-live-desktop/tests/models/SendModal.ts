@@ -26,11 +26,11 @@ export class SendModal extends Modal {
       "text=Double-check the transaction details on your Ledger device before signing.",
     );
     this.checkTransactionbroadcast = page.locator("text=Transaction sent");
-    this.checkTransactionDenied = page.locator(`div[color="alertRed"]`); //Pas ideal
-    this.retryButton = page.getByRole("button", { name: "Retry" });
+    this.checkTransactionDenied = page.locator(`div[color="alertRed"]`); //Pas ideal, quoi checker ?
+    this.retryButton = page.getByRole("button", { name: "Retry" }); // a enlever
     this.checkAddress = address =>
       page.locator('[data-test-id="modal-content"]').locator(`text=${address}`);
-    this.checkAmount = currency => page.locator(`text=0.00001 ${currency}`).first();
+    this.checkAmount = currency => page.locator(`text=0.00001 ${currency}`).first(); //Change here amount given on the transaction
   }
 
   async selectAccount(name: string) {
