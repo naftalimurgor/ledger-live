@@ -236,7 +236,6 @@ function fromTokenAccountRaw(
     spendableBalance,
     balanceHistoryCache,
     swapHistory,
-    approvals,
   } = raw;
   const token = getTokenById(tokenId);
 
@@ -255,7 +254,6 @@ function fromTokenAccountRaw(
     operations: operations.map(convertOperation),
     pendingOperations: (pendingOperations || []).map(convertOperation),
     swapHistory: swapHistory?.map(fromSwapOperationRaw) || [],
-    approvals,
     balanceHistoryCache: balanceHistoryCache || emptyHistoryCache,
   };
   res.balanceHistoryCache = generateHistoryFromOperations(res as TokenAccount);
@@ -276,7 +274,6 @@ function toTokenAccountRaw(
     spendableBalance,
     balanceHistoryCache,
     swapHistory,
-    approvals,
   } = ta;
 
   const convertOperation = (op: Operation) => toOperationRaw(op, undefined, toOperationExtraRaw);
@@ -294,6 +291,5 @@ function toTokenAccountRaw(
     operations: operations.map(convertOperation),
     pendingOperations: pendingOperations.map(convertOperation),
     swapHistory: swapHistory?.map(toSwapOperationRaw),
-    approvals,
   };
 }
