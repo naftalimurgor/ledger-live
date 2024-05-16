@@ -13,7 +13,11 @@ describe("broadcast", () => {
   it("calls explorer for broadcast operation", async () => {
     // WHEN
     await broadcast({
-      signedOperation: { signature: "SIGNATURE", operation: createFixtureOperation() },
+      account: {} as any,
+      signedOperation: {
+        signature: "SIGNATURE",
+        operation: createFixtureOperation(),
+      },
     });
 
     // THEN
@@ -26,7 +30,10 @@ describe("broadcast", () => {
     const operation = createFixtureOperation();
 
     // WHEN
-    const result = await broadcast({ signedOperation: { signature: "SIGNATURE", operation } });
+    const result = await broadcast({
+      account: {} as any,
+      signedOperation: { signature: "SIGNATURE", operation },
+    });
 
     // THEN
     expect(result).not.toEqual(operation);
