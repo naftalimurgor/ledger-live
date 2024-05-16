@@ -39,12 +39,12 @@ export const fromTransactionRaw = (tr: TransactionRaw): Transaction => {
 
 export const toTransactionRaw = (t: Transaction): TransactionRaw => {
   const common = toTransactionCommonRaw(t);
-  return {
-    ...common,
-    family: t.family,
-    mode: t.mode,
-    fees: t.fees?.toString(),
-  };
+  const transactionRaw: TransactionRaw = { ...common, family: t.family, mode: t.mode };
+  if (t.fees) {
+    transactionRaw.fees = t.fees.toString();
+  }
+
+  return transactionRaw;
 };
 
 export default {
