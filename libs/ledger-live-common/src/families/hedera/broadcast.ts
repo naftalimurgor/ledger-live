@@ -1,17 +1,11 @@
-import { Account, Operation, SignedOperation } from "@ledgerhq/types-live";
+import { AccountBridge } from "@ledgerhq/types-live";
 import * as hedera from "@hashgraph/sdk";
 import { broadcastTransaction } from "./api/network";
 import { patchOperationWithHash } from "../../operation";
 import { base64ToUrlSafeBase64 } from "./utils";
+import { Transaction } from "./types";
 
-export default async function broadcast({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  account,
-  signedOperation,
-}: {
-  account: Account;
-  signedOperation: SignedOperation;
-}): Promise<Operation> {
+export const broadcast: AccountBridge<Transaction>["broadcast"] = async ({ signedOperation }) => {
   const { signature, operation } = signedOperation;
 
   // NOTE: expecting a serialized transaction to be signedOperation.signature (in hex)
@@ -23,4 +17,6 @@ export default async function broadcast({
   const base64HashUrlSafe = base64ToUrlSafeBase64(base64Hash);
 
   return patchOperationWithHash(operation, base64HashUrlSafe);
-}
+};
+
+export default broadcast;
