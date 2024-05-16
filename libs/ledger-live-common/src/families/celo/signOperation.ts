@@ -1,63 +1,15 @@
 import { BigNumber } from "bignumber.js";
 import { Observable } from "rxjs";
 import { FeeNotLoaded } from "@ledgerhq/errors";
-import type { OperationType, SignOperationFnSignature } from "@ledgerhq/types-live";
+import type { AccountBridge, OperationType } from "@ledgerhq/types-live";
 import type { Transaction, CeloOperationMode, CeloAccount, CeloOperation } from "./types";
 import { encodeOperationId } from "../../operation";
 import { CeloApp } from "./hw-app-celo";
-import buildTransaction from "./js-buildTransaction";
+import buildTransaction from "./buildTransaction";
 import { rlpEncodedTx, encodeTransaction } from "@celo/wallet-base";
 import { tokenInfoByAddressAndChainId } from "@celo/wallet-ledger/lib/tokens";
 import { withDevice } from "../../hw/deviceAccess";
-
-const MODE_TO_TYPE: { [key in CeloOperationMode | "default"]: string } = {
-  send: "OUT",
-  lock: "LOCK",
-  unlock: "UNLOCK",
-  withdraw: "WITHDRAW",
-  vote: "VOTE",
-  revoke: "REVOKE",
-  activate: "ACTIVATE",
-  register: "REGISTER",
-  default: "FEE",
-};
-
-const buildOptimisticOperation = (
-  account: CeloAccount,
-  transaction: Transaction,
-  fee: BigNumber,
-): CeloOperation => {
-  const type = (MODE_TO_TYPE[transaction.mode] ?? MODE_TO_TYPE.default) as OperationType;
-
-  const value =
-    type === "OUT" || type === "LOCK"
-      ? new BigNumber(transaction.amount).plus(fee)
-      : new BigNumber(transaction.amount);
-
-  const operation: CeloOperation = {
-    id: encodeOperationId(account.id, "", type),
-    hash: "",
-    type,
-    value,
-    fee,
-    blockHash: null,
-    blockHeight: null,
-    senders: [account.freshAddress],
-    recipients: [transaction.recipient].filter(Boolean),
-    accountId: account.id,
-    date: new Date(),
-    extra: {
-      celoOperationValue: new BigNumber(transaction.amount),
-      ...(["ACTIVATE", "VOTE", "REVOKE"].includes(type)
-        ? {
-            celoSourceValidator: transaction.recipient,
-          }
-        : {}),
-    },
-  };
-
-  return operation;
-};
+import { buildOptimisticOperation } from "./buildOptimisticOperation";
 
 const trimLeading0x = (input: string) => (input.startsWith("0x") ? input.slice(2) : input);
 
@@ -90,7 +42,11 @@ const parseSigningResponse = (
 /**
  * Sign Transaction with Ledger hardware
  */
-const signOperation: SignOperationFnSignature<Transaction> = ({ account, deviceId, transaction }) =>
+const signOperation: AccountBridge<Transaction>["signOperation"] = ({
+  account,
+  deviceId,
+  transaction,
+}) =>
   withDevice(deviceId)(
     transport =>
       new Observable(o => {

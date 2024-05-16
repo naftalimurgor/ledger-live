@@ -2,14 +2,14 @@ import type { AccountBridge, CurrencyBridge } from "@ledgerhq/types-live";
 import type { Transaction } from "../types";
 import { makeAccountBridgeReceive } from "../../../bridge/jsHelpers";
 import { defaultUpdateTransaction } from "@ledgerhq/coin-framework/bridge/jsHelpers";
-import { sync, scanAccounts } from "../js-synchronisation";
+import { sync, scanAccounts } from "../synchronisation";
 import { getPreloadStrategy, preload, hydrate } from "../preload";
-import signOperation from "../js-signOperation";
-import getTransactionStatus from "../js-getTransactionStatus";
-import broadcast from "../js-broadcast";
-import estimateMaxSpendable from "../js-estimateMaxSpendable";
-import prepareTransaction from "../js-prepareTransaction";
-import createTransaction from "../js-createTransaction";
+import signOperation from "../signOperation";
+import getTransactionStatus from "../getTransactionStatus";
+import broadcast from "../broadcast";
+import estimateMaxSpendable from "../estimateMaxSpendable";
+import prepareTransaction from "../prepareTransaction";
+import createTransaction from "../createTransaction";
 import {
   assignFromAccountRaw,
   assignToAccountRaw,

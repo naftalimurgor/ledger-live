@@ -1,11 +1,15 @@
 import { CeloAccount, Transaction } from "./types";
-import getFeesForTransaction from "./js-getFeesForTransaction";
+import getFeesForTransaction from "./getFeesForTransaction";
 import { isValidAddress } from "@celo/utils/lib/address";
 import BigNumber from "bignumber.js";
+import { AccountBridge } from "@ledgerhq/types-live";
 
 const sameFees = (a, b) => (!a || !b ? a === b : a.eq(b));
 
-const prepareTransaction = async (account: CeloAccount, transaction: Transaction) => {
+const prepareTransaction: AccountBridge<Transaction>["prepareTransaction"] = async (
+  account: CeloAccount,
+  transaction,
+) => {
   if (transaction.recipient && !isValidAddress(transaction.recipient)) return transaction;
 
   if (["send", "vote"].includes(transaction.mode) && !transaction.recipient) return transaction;
