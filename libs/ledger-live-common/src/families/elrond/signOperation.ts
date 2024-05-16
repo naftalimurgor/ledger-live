@@ -6,9 +6,9 @@ import type { ElrondProtocolTransaction, ElrondTransactionMode, Transaction } fr
 import { withDevice } from "../../hw/deviceAccess";
 import { encodeOperationId } from "../../operation";
 import Elrond from "./hw-app-elrond";
-import { buildTransactionToSign } from "./js-buildTransaction";
+import { buildTransactionToSign } from "./buildTransaction";
 import { CHAIN_ID } from "./constants";
-import { Account, Operation, OperationType, SignOperationFnSignature } from "@ledgerhq/types-live";
+import { Account, AccountBridge, Operation, OperationType } from "@ledgerhq/types-live";
 import { BinaryUtils } from "./utils/binary.utils";
 import { decodeTokenAccountId } from "../../account";
 import { extractTokenId } from "./logic";
@@ -119,7 +119,11 @@ const buildOptimisticOperation = (
 /**
  * Sign Transaction with Ledger hardware
  */
-const signOperation: SignOperationFnSignature<Transaction> = ({ account, deviceId, transaction }) =>
+const signOperation: AccountBridge<Transaction>["signOperation"] = ({
+  account,
+  deviceId,
+  transaction,
+}) =>
   withDevice(deviceId)(
     transport =>
       new Observable(o => {

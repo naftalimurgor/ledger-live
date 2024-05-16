@@ -4,8 +4,8 @@ import { inferSubOperations } from "@ledgerhq/coin-framework/serialization/index
 import type { GetAccountShape } from "../../bridge/jsHelpers";
 import { makeScanAccounts, makeSync, mergeOps } from "../../bridge/jsHelpers";
 import { getAccount, getAccountDelegations, getEGLDOperations, hasESDTTokens } from "./api";
-import elrondBuildESDTTokenAccounts from "./js-buildSubAccounts";
-import { reconciliateSubAccounts } from "./js-reconciliation";
+import elrondBuildESDTTokenAccounts from "./buildSubAccounts";
+import { reconciliateSubAccounts } from "./reconciliation";
 import { computeDelegationBalance } from "./logic";
 
 const getAccountShape: GetAccountShape = async (info, syncConfig) => {
