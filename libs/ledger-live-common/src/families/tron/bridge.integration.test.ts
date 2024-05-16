@@ -23,7 +23,7 @@ import {
 } from "./errors";
 import { testBridge } from "../../__tests__/test-helpers/bridge";
 import "../../__tests__/test-helpers/setup";
-import { activationFees } from "./constants";
+import { ACTIVATION_FEES } from "./constants";
 import { fromTransactionRaw } from "./transaction";
 import type { Transaction } from "./types";
 
@@ -413,7 +413,7 @@ const tron: CurrenciesData<Transaction> = {
             recipient: unactivatedAddress,
           }),
           expectedStatus: () => ({
-            estimatedFees: activationFees,
+            estimatedFees: ACTIVATION_FEES,
           }),
         },
         {
@@ -421,7 +421,7 @@ const tron: CurrenciesData<Transaction> = {
           transaction: (t, account) => ({
             ...t,
             recipient: unactivatedAddress,
-            amount: account.spendableBalance.minus(activationFees).minus(1),
+            amount: account.spendableBalance.minus(ACTIVATION_FEES).minus(1),
           }),
           expectedStatus: () => ({
             errors: {},
@@ -432,7 +432,7 @@ const tron: CurrenciesData<Transaction> = {
           transaction: (t, account) => ({
             ...t,
             recipient: unactivatedAddress,
-            amount: account.spendableBalance.minus(activationFees),
+            amount: account.spendableBalance.minus(ACTIVATION_FEES),
           }),
           expectedStatus: () => ({
             errors: {},

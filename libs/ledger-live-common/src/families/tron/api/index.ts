@@ -1,15 +1,15 @@
-import { makeLRUCache } from "@ledgerhq/live-network/cache";
-import network from "@ledgerhq/live-network/network";
-import { log } from "@ledgerhq/logs";
-import { Account, SubAccount, TokenAccount } from "@ledgerhq/types-live";
-import { BigNumber } from "bignumber.js";
-import compact from "lodash/compact";
-import drop from "lodash/drop";
 import get from "lodash/get";
-import sumBy from "lodash/sumBy";
-import take from "lodash/take";
 import TronWeb from "tronweb";
+import drop from "lodash/drop";
+import take from "lodash/take";
+import sumBy from "lodash/sumBy";
+import compact from "lodash/compact";
+import { log } from "@ledgerhq/logs";
+import { BigNumber } from "bignumber.js";
 import { getEnv } from "@ledgerhq/live-env";
+import network from "@ledgerhq/live-network/network";
+import { makeLRUCache } from "@ledgerhq/live-network/cache";
+import { Account, SubAccount, TokenAccount } from "@ledgerhq/types-live";
 import { TronTransactionExpired } from "../errors";
 import { promiseAllBatched } from "../../../promise";
 import type {
@@ -81,13 +81,13 @@ async function fetch(url: string) {
 }
 
 export const freezeTronTransaction = async (
-  a: Account,
-  t: Transaction,
+  account: Account,
+  transaction: Transaction,
 ): Promise<SendTransactionDataSuccess> => {
   const txData: FreezeTransactionData = {
-    frozen_balance: t.amount.toNumber(),
-    resource: t.resource,
-    owner_address: decode58Check(a.freshAddress),
+    frozen_balance: transaction.amount.toNumber(),
+    resource: transaction.resource,
+    owner_address: decode58Check(account.freshAddress),
   };
   const url = `${getBaseApiUrl()}/wallet/freezebalancev2`;
   const result = await post(url, txData);
@@ -96,13 +96,13 @@ export const freezeTronTransaction = async (
 };
 
 export const unfreezeTronTransaction = async (
-  a: Account,
-  t: Transaction,
+  account: Account,
+  transaction: Transaction,
 ): Promise<SendTransactionDataSuccess> => {
   const txData: UnFreezeTransactionData = {
-    owner_address: decode58Check(a.freshAddress),
-    resource: t.resource,
-    unfreeze_balance: t.amount.toNumber(),
+    owner_address: decode58Check(account.freshAddress),
+    resource: transaction.resource,
+    unfreeze_balance: transaction.amount.toNumber(),
   };
   const url = `${getBaseApiUrl()}/wallet/unfreezebalancev2`;
   const result = await post(url, txData);
@@ -192,8 +192,8 @@ export async function getDelegatedResource(
 
 // Send trx or trc10/trc20 tokens
 export const createTronTransaction = async (
-  a: Account,
-  t: Transaction,
+  account: Account,
+  transaction: Transaction,
   subAccount: SubAccount | null | undefined,
 ): Promise<SendTransactionDataSuccess> => {
   const [tokenType, tokenId] =
@@ -209,8 +209,8 @@ export const createTronTransaction = async (
       fee_limit: 50000000,
       call_value: 0,
       contract_address: decode58Check(tokenContractAddress),
-      parameter: abiEncodeTrc20Transfer(decode58Check(t.recipient), t.amount),
-      owner_address: decode58Check(a.freshAddress),
+      parameter: abiEncodeTrc20Transfer(decode58Check(transaction.recipient), transaction.amount),
+      owner_address: decode58Check(account.freshAddress),
     };
     const url = `${getBaseApiUrl()}/wallet/triggersmartcontract`;
     const result = await post(url, txData);
@@ -218,9 +218,9 @@ export const createTronTransaction = async (
   } else {
     // trx/trc10
     const txData: SendTransactionData = {
-      to_address: decode58Check(t.recipient),
-      owner_address: decode58Check(a.freshAddress),
-      amount: t.amount.toNumber(),
+      to_address: decode58Check(transaction.recipient),
+      owner_address: decode58Check(account.freshAddress),
+      amount: transaction.amount.toNumber(),
       asset_name: tokenId && Buffer.from(tokenId).toString("hex"),
     };
     const url = subAccount
