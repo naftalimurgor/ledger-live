@@ -1,10 +1,10 @@
-import createTransaction from "../js-createTransaction";
-import estimateMaxSpendable from "../js-estimateMaxSpendable";
-import getTransactionStatus from "../js-getTransactionStatus";
-import prepareTransaction from "../js-prepareTransaction";
-import signOperation from "../js-signOperation";
-import { sync, scanAccounts } from "../js-synchronisation";
-import updateTransaction from "../js-updateTransaction";
+import createTransaction from "../createTransaction";
+import estimateMaxSpendable from "../estimateMaxSpendable";
+import getTransactionStatus from "../getTransactionStatus";
+import prepareTransaction from "../prepareTransaction";
+import signOperation from "../signOperation";
+import { sync, scanAccounts } from "../synchronisation";
+import updateTransaction from "../updateTransaction";
 import type { CosmosCurrencyConfig, CosmosValidatorItem, Transaction } from "../types";
 import { makeAccountBridgeReceive } from "../../../bridge/jsHelpers";
 import { asSafeCosmosPreloadData, setCosmosPreloadData } from "../preloadedData";

@@ -1,25 +1,20 @@
 import { getAbandonSeedAddress } from "@ledgerhq/cryptoassets";
-import type { Account, AccountLike } from "@ledgerhq/types-live";
-import { BigNumber } from "bignumber.js";
+import type { AccountBridge } from "@ledgerhq/types-live";
 import { getMainAccount } from "../../account";
-import createTransaction from "./js-createTransaction";
-import getTransactionStatus from "./js-getTransactionStatus";
-import prepareTransaction from "./js-prepareTransaction";
+import createTransaction from "./createTransaction";
+import getTransactionStatus from "./getTransactionStatus";
+import prepareTransaction from "./prepareTransaction";
 import type { CosmosAccount, Transaction } from "./types";
 
-const estimateMaxSpendable = async ({
+const estimateMaxSpendable: AccountBridge<Transaction>["estimateMaxSpendable"] = async ({
   account,
   parentAccount,
   transaction,
-}: {
-  account: AccountLike;
-  parentAccount: Account;
-  transaction: Transaction;
-}): Promise<BigNumber> => {
+}) => {
   const mainAccount = getMainAccount(account, parentAccount) as CosmosAccount;
 
   const t = await prepareTransaction(mainAccount, {
-    ...createTransaction(),
+    ...createTransaction(account),
     ...transaction,
     recipient: transaction?.recipient || getAbandonSeedAddress(mainAccount.currency.id),
     useAllAmount: true,
