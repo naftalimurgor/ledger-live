@@ -2,7 +2,7 @@ import { RecipientRequired } from "@ledgerhq/errors";
 import { makeLRUCache } from "@ledgerhq/live-network/cache";
 import type { CryptoCurrency } from "@ledgerhq/types-cryptoassets";
 import type { Account } from "@ledgerhq/types-live";
-import getFeesForTransaction from "./js-getFeesForTransaction";
+import getFeesForTransaction from "./getFeesForTransaction";
 import { isValidRecipient } from "./logic";
 import type { Transaction } from "./types";
 import { Currency, isTaprootAddress } from "./wallet-btc";
