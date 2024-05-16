@@ -152,6 +152,7 @@ export const getAccountShapeWithAPI = async (
         custodianAddress: mainAccAddress,
         epoch,
       });
+
     return {
       stakeAccAddr: account.onChainAcc.pubkey.toBase58(),
       stakeAccBalance,
