@@ -5,7 +5,7 @@ import { getDelegationInfo } from "./api/getDelegationInfo";
 import { getNetworkInfo } from "./api/getNetworkInfo";
 import { getTransactions } from "./api/getTransactions";
 import { buildSubAccounts } from "./buildSubAccounts";
-import { makeGetAccountShape, SignerContext } from "./js-synchronisation";
+import { makeGetAccountShape, SignerContext } from "./synchronisation";
 import { BipPath, CardanoAccount, CardanoDelegation } from "./types";
 jest.mock("./buildSubAccounts");
 jest.mock("./api/getTransactions");
