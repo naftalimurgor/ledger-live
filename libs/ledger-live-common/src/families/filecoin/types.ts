@@ -39,8 +39,6 @@ export type TransactionRaw = TransactionCommonRaw & {
   gasPremium: string;
 };
 
-export type BroadcastFnSignature = (arg0: BroadcastArg) => Promise<Operation>;
-
 export type TransactionStatus = TransactionStatusCommon;
 
 export type TransactionStatusRaw = TransactionStatusCommonRaw;
