@@ -4,38 +4,12 @@ import { utils } from "@crypto-org-chain/chain-jslib";
 import { FeeNotLoaded } from "@ledgerhq/errors";
 import CryptoOrgApp from "@ledgerhq/hw-app-cosmos";
 import { CryptoOrgWrongSignatureHeader, CryptoOrgSignatureSize } from "./errors";
-import type { CryptoOrgOperation, Transaction } from "./types";
-import type { Account, SignOperationFnSignature } from "@ledgerhq/types-live";
-import { encodeOperationId } from "../../operation";
+import type { Transaction } from "./types";
+import type { AccountBridge } from "@ledgerhq/types-live";
 import { withDevice } from "../../hw/deviceAccess";
-import { buildTransaction } from "./js-buildTransaction";
+import { buildTransaction } from "./buildTransaction";
 import { isTestNet } from "./logic";
-
-const buildOptimisticOperation = (
-  account: Account,
-  transaction: Transaction,
-  fee: BigNumber,
-): CryptoOrgOperation => {
-  const type = "OUT";
-  const value = new BigNumber(transaction.amount).plus(fee);
-  const operation: CryptoOrgOperation = {
-    id: encodeOperationId(account.id, "", type),
-    hash: "",
-    type,
-    value,
-    fee,
-    blockHash: null,
-    blockHeight: null,
-    senders: [account.freshAddress],
-    recipients: [transaction.recipient].filter(Boolean),
-    accountId: account.id,
-    date: new Date(),
-    extra: {
-      memo: transaction.memo,
-    },
-  };
-  return operation;
-};
+import { buildOptimisticOperation } from "./buildOptimisticOperation";
 
 function convertASN1toBase64(signature) {
   // 0 0x30: a header byte indicating a compound structure
@@ -92,7 +66,11 @@ function padZero(original_array: Uint8Array, wanted_length: number) {
 /**
  * Sign Transaction with Ledger hardware
  */
-const signOperation: SignOperationFnSignature<Transaction> = ({ account, deviceId, transaction }) =>
+const signOperation: AccountBridge<Transaction>["signOperation"] = ({
+  account,
+  deviceId,
+  transaction,
+}) =>
   withDevice(deviceId)(
     transport =>
       new Observable(o => {
