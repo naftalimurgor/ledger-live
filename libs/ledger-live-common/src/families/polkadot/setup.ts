@@ -29,6 +29,9 @@ const getCurrencyConfig = (): PolkadotCoinConfig => {
       url: getEnv("API_POLKADOT_SIDECAR"),
       credentials: getEnv("API_POLKADOT_SIDECAR_CREDENTIALS"),
     },
+    node: {
+      url: "https://polkadot-rpc.publicnode.com",
+    },
     staking: {
       electionStatusThreshold: getEnv("POLKADOT_ELECTION_STATUS_THRESHOLD"),
     },
