@@ -1,4 +1,5 @@
 import { ConfigInfo } from "@ledgerhq/live-config/LiveConfig";
+import { getEnv } from "@ledgerhq/live-env";
 
 export const polkadotConfig: Record<string, ConfigInfo> = {
   config_currency_polkadot: {
@@ -6,6 +7,16 @@ export const polkadotConfig: Record<string, ConfigInfo> = {
     default: {
       status: {
         type: "active",
+      },
+      sidecar: {
+        url: getEnv("API_POLKADOT_SIDECAR"),
+        credentials: getEnv("API_POLKADOT_SIDECAR_CREDENTIALS"),
+      },
+      node: {
+        url: "https://polkadot-rpc.publicnode.com",
+      },
+      staking: {
+        electionStatusThreshold: getEnv("POLKADOT_ELECTION_STATUS_THRESHOLD"),
       },
     },
   },

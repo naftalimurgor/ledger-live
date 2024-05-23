@@ -6,7 +6,7 @@ import {
   createBridges,
   type Transaction,
 } from "@ledgerhq/coin-polkadot";
-import { getEnv } from "@ledgerhq/live-env";
+import { getCryptoCurrencyById } from "@ledgerhq/cryptoassets/currencies";
 import Transport from "@ledgerhq/hw-transport";
 import Polkadot from "@ledgerhq/hw-app-polkadot";
 import type { Bridge } from "@ledgerhq/types-live";
@@ -15,27 +15,15 @@ import polkadotResolver from "@ledgerhq/coin-polkadot/signer/index";
 import makeCliTools, { type CliTools } from "@ledgerhq/coin-polkadot/test/cli";
 import { CreateSigner, createResolver, executeWithSigner } from "../../bridge/setup";
 import { Resolver } from "../../hw/getAddress/types";
+import { getCurrencyConfiguration } from "../../config";
 
 const createSigner: CreateSigner<Polkadot> = (transport: Transport) => {
   return new Polkadot(transport);
 };
+const polkadot = getCryptoCurrencyById("polkadot");
 
 const getCurrencyConfig = (): PolkadotCoinConfig => {
-  return {
-    status: {
-      type: "active",
-    },
-    sidecar: {
-      url: getEnv("API_POLKADOT_SIDECAR"),
-      credentials: getEnv("API_POLKADOT_SIDECAR_CREDENTIALS"),
-    },
-    node: {
-      url: "https://polkadot-rpc.publicnode.com",
-    },
-    staking: {
-      electionStatusThreshold: getEnv("POLKADOT_ELECTION_STATUS_THRESHOLD"),
-    },
-  };
+  return getCurrencyConfiguration(polkadot);
 };
 
 const bridge: Bridge<Transaction, PolkadotAccount, TransactionStatus> = createBridges(
