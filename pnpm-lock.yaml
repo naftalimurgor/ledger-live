@@ -5706,7 +5706,7 @@ importers:
         version: 6.7.5
       '@react-native-community/slider':
         specifier: ^4.4.2
-        version: 4.5.0
+        version: 4.5.2
       '@storybook/addon-actions':
         specifier: ^7.5.3
         version: 7.6.17
@@ -5727,7 +5727,7 @@ importers:
         version: 6.5.7(@emotion/native@11.11.0)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)
       '@storybook/addon-ondevice-controls':
         specifier: 6.5.7
-        version: 6.5.7(@react-native-community/datetimepicker@6.7.5)(@react-native-community/slider@4.5.0)(@storybook/addon-controls@7.6.17)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)
+        version: 6.5.7(@react-native-community/datetimepicker@6.7.5)(@react-native-community/slider@4.5.2)(@storybook/addon-controls@7.6.17)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)
       '@storybook/addon-ondevice-notes':
         specifier: 6.5.7
         version: 6.5.7(@types/react@18.2.73)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)
@@ -12345,15 +12345,9 @@ packages:
       metro: '*'
       metro-core: '*'
     peerDependenciesMeta:
-      '@expo/metro-config':
-        optional: true
-      glob:
-        optional: true
       metro:
         optional: true
       metro-core:
-        optional: true
-      minimatch:
         optional: true
     dependencies:
       '@babel/runtime': 7.24.1
@@ -13610,7 +13604,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.12
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
     dev: false
 
   /@grpc/proto-loader@0.6.13:
@@ -13769,7 +13763,7 @@ packages:
       '@inquirer/figures': 1.0.1
       '@inquirer/type': 1.3.1
       '@types/mute-stream': 0.0.4
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
       '@types/wrap-ansi': 3.0.0
       ansi-escapes: 4.3.2
       chalk: 4.1.2
@@ -14537,7 +14531,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -17427,9 +17421,6 @@ packages:
 
   /@react-native-community/cli-tools@12.3.6:
     resolution: {integrity: sha512-FPEvZn19UTMMXUp/piwKZSh8cMEfO8G3KDtOwo53O347GTcwNrKjgZGtLSPELBX2gr+YlzEft3CoRv2Qmo83fQ==}
-    peerDependenciesMeta:
-      find-up:
-        optional: true
     dependencies:
       appdirsjs: 1.2.7
       chalk: 4.1.2
@@ -17554,8 +17545,8 @@ packages:
       react-native: 0.73.6(@babel/core@7.24.3)(react@18.2.0)
     dev: false
 
-  /@react-native-community/slider@4.5.0:
-    resolution: {integrity: sha512-pyUvNTvu5IfCI5abzqRfO/dd3A009RC66RXZE6t0gyOwI/j0QDlq9VZRv3rjkpuIvNTnsYj+m5BHlh0DkSYUyA==}
+  /@react-native-community/slider@4.5.2:
+    resolution: {integrity: sha512-DbFyCyI7rwl0FkBkp0lzEVp+5mNfS5qU/nM2sK2aSguWhj0Odkt1aKHP2iW/ljruOhgS/O4dEixXlne4OdZJDQ==}
     dev: true
 
   /@react-native-firebase/app@14.12.0(react-native@0.73.6)(react@18.2.0):
@@ -21137,7 +21128,7 @@ packages:
       - react-dom
     dev: true
 
-  /@storybook/addon-ondevice-controls@6.5.7(@react-native-community/datetimepicker@6.7.5)(@react-native-community/slider@4.5.0)(@storybook/addon-controls@7.6.17)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0):
+  /@storybook/addon-ondevice-controls@6.5.7(@react-native-community/datetimepicker@6.7.5)(@react-native-community/slider@4.5.2)(@storybook/addon-controls@7.6.17)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0):
     resolution: {integrity: sha512-dy3d2D8TzEIGaEufS3mB3X7K0Wa5qBc6QEGE1b0S8ra9pa9Hw5YD43fk7xvwSJ1QIbOFCr7QWbfnB1c2QwyFSQ==}
     peerDependencies:
       '@react-native-community/datetimepicker': '*'
@@ -21147,7 +21138,7 @@ packages:
       react-native: '*'
     dependencies:
       '@react-native-community/datetimepicker': 6.7.5
-      '@react-native-community/slider': 4.5.0
+      '@react-native-community/slider': 4.5.2
       '@storybook/addon-controls': 7.6.17(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
       '@storybook/addons': 6.5.16(react-dom@18.2.0)(react@18.2.0)
       '@storybook/client-logger': 6.5.16
@@ -21791,7 +21782,7 @@ packages:
       '@storybook/node-logger': 7.6.17
       '@storybook/types': 7.6.17
       '@types/find-cache-dir': 3.2.1
-      '@types/node': 18.19.26
+      '@types/node': 18.19.33
       '@types/node-fetch': 2.6.11
       '@types/pretty-hrtime': 1.0.3
       chalk: 4.1.2
@@ -23361,7 +23352,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
 
   /@types/bonjour@3.5.13:
     resolution: {integrity: sha512-z9fJ5Im06zvUL548KvYNecEVlA7cVDkGUi6kZusb04mpyEFKCIZJvloCcmpmLaIahDpOQGHaHmG6imtPMmPXGQ==}
@@ -23576,7 +23567,7 @@ packages:
   /@types/express-serve-static-core@4.17.43:
     resolution: {integrity: sha512-oaYtiBirUOPQGSWNGPWnzyAFJ0BP3cwvN4oWZQY+zUBwpVIGsKUkpBpSztp74drYcjavs7SKFZ4DX1V2QeN8rg==}
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
       '@types/qs': 6.9.14
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23664,7 +23655,7 @@ packages:
   /@types/http-proxy@1.17.14:
     resolution: {integrity: sha512-SSrD0c1OQzlFX7pGu1eXxSEjemej64aaNPRhhVYUGqXh0BtldAAx37MG8btcumvpgKyZp1F5Gn3JkktdxiFv6w==}
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
 
   /@types/imurmurhash@0.1.4:
     resolution: {integrity: sha512-Zo/QlTiAvOP3pd9nuPOw33k0l/QssLOBrriShWzUE4qhIZByIF3rCoyF8ZTxdyFTUM2mYljYLqMUeLvA3NJUmQ==}
@@ -23830,7 +23821,7 @@ packages:
   /@types/mute-stream@0.0.4:
     resolution: {integrity: sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==}
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
     dev: true
 
   /@types/node-fetch@2.6.11:
@@ -23843,7 +23834,7 @@ packages:
   /@types/node-forge@1.3.11:
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
 
   /@types/node-hid@1.3.4:
     resolution: {integrity: sha512-0ootpsYetN9vjqkDSwm/cA4fk/9yGM/PO0X8SLPE/BzXlUaBelImMWMymtF9QEoEzxY0pnhcROIJM0CNSUqO8w==}
@@ -23885,8 +23876,8 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/node@20.12.13:
-    resolution: {integrity: sha512-gBGeanV41c1L171rR7wjbMiEpEI/l5XFQdLLfhr/REwpgDy/4U8y89+i8kRiLzDyZdOkXh+cRaTetUnCYutoXA==}
+  /@types/node@20.13.0:
+    resolution: {integrity: sha512-FM6AOb3khNkNIXPnHFDYaHerSv8uN22C91z098AnGccVu+Pcdhi+pNUFDi0iLmPIsVE0JBD0KVS7mzUYt4nRzQ==}
     dependencies:
       undici-types: 5.26.5
 
@@ -23932,7 +23923,7 @@ packages:
     resolution: {integrity: sha512-E6OCaRmAe4WDmWNsL/9RMqdkkzDCY1etutkflWk4c+AcjDU07Pcz1fQwTX0TQz+Pxqn9i4L1TU3UFpjnrcDgxA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
       xmlbuilder: 15.1.1
     dev: true
     optional: true
@@ -24276,7 +24267,7 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
 
   /@types/serve-handler@6.1.4:
     resolution: {integrity: sha512-aXy58tNie0NkuSCY291xUxl0X+kGYy986l4kqW6Gi4kEXgr6Tx0fpSH7YwUSa5usPpG3s9DBeIR6hHcDtL2IvQ==}
@@ -24393,7 +24384,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
     dev: true
 
   /@types/unist@2.0.10:
@@ -25377,9 +25368,6 @@ packages:
 
   /ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependenciesMeta:
-      ajv:
-        optional: true
     dependencies:
       ajv: 8.11.2
 
@@ -32339,7 +32327,6 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
-    bundledDependencies: false
 
   /ev-emitter@1.1.1:
     resolution: {integrity: sha512-ipiDYhdQSCZ4hSbX4rMW+XzNKMD1prg/sTvoVmSLkuQ1MVlwjJQQA+sW8tMYR3BLUr9KjodFV4pvzunvRhd33Q==}
@@ -32576,8 +32563,6 @@ packages:
     peerDependenciesMeta:
       expo-constants:
         optional: true
-      expo-file-system:
-        optional: true
       expo-modules-core:
         optional: true
       react:
@@ -32609,8 +32594,6 @@ packages:
     peerDependenciesMeta:
       expo-constants:
         optional: true
-      expo-file-system:
-        optional: true
       expo-modules-core:
         optional: true
       react:
@@ -32640,8 +32623,6 @@ packages:
       react: '*'
       react-native: '*'
     peerDependenciesMeta:
-      expo-constants:
-        optional: true
       expo-file-system:
         optional: true
       expo-modules-core:
@@ -33262,8 +33243,6 @@ packages:
       react: '*'
       react-native: '*'
     peerDependenciesMeta:
-      expo-modules-autolinking:
-        optional: true
       expo-modules-core:
         optional: true
       react:
@@ -38485,7 +38464,7 @@ packages:
       metro:
         optional: true
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -38498,7 +38477,7 @@ packages:
       metro:
         optional: true
     dependencies:
-      '@types/node': 20.12.13
+      '@types/node': 20.13.0
       merge-stream: 2.0.0
       metro: 0.80.8
       supports-color: 8.1.1
@@ -41366,9 +41345,6 @@ packages:
   /metro-transform-worker@0.80.8:
     resolution: {integrity: sha512-+4FG3TQk3BTbNqGkFb2uCaxYTfsbuFOCKMMURbwu0ehCP8ZJuTUramkaNZoATS49NSAkRgUltgmBa4YaKZ5mqw==}
     engines: {node: '>=18'}
-    peerDependenciesMeta:
-      metro-minify-terser:
-        optional: true
     dependencies:
       '@babel/core': 7.24.3
       '@babel/generator': 7.24.1
