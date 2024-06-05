@@ -21,5 +21,7 @@ test.describe.parallel("ERC20 token", () => {
     await app.portfolio.navigateToAsset(token);
     await app.account.navigateToToken(token);
     await app.account.expectLastOperationsVisibility();
+
+    testInfo.annotations.push({ type: "test_key", description: "B2CQA-1079" });
   });
 });
