@@ -47,12 +47,6 @@ for (const [i, currency] of currencies.entries()) {
       await app.account.expectAccountVisibility(firstAccountName);
       await app.account.expectAccountBalance();
       await app.account.expectLastOperationsVisibility();
-
-      testInfo.annotations.push({ type: "test_key", description: "B2CQA-101" });
-      testInfo.annotations.push({ type: "test_key", description: "B2CQA-102" });
-      testInfo.annotations.push({ type: "test_key", description: "B2CQA-314" });
-      testInfo.annotations.push({ type: "test_key", description: "B2CQA-330" });
-      testInfo.annotations.push({ type: "test_key", description: "B2CQA-929" });
     });
   });
 }
