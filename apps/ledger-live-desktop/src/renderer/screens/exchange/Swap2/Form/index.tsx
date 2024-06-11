@@ -443,6 +443,13 @@ const SwapForm = () => {
     getExchangeSDKParams,
     getProviderRedirectURLSearch,
   });
+  const [amountToLiveApp, setAmountToLiveApp] = useState<BigNumber | undefined>(undefined);
+  const amountTo = useMemo(() => {
+    if (swapLiveAppManifestID?.startsWith(SwapWebManifestIDs.Demo1)) {
+      return amountToLiveApp;
+    }
+    return exchangeRate?.toAmount;
+  }, [swapLiveAppManifestID, exchangeRate?.toAmount, amountToLiveApp]);
 
   return (
     <Wrapper>
@@ -452,7 +459,7 @@ const SwapForm = () => {
         toAccount={swapTransaction.swap.to.account}
         fromAmount={swapTransaction.swap.from.amount}
         toCurrency={targetCurrency}
-        toAmount={exchangeRate?.toAmount}
+        toAmount={amountTo}
         setFromAccount={setFromAccount}
         setFromAmount={setFromAmount}
         setToCurrency={setToCurrency}
@@ -474,8 +481,9 @@ const SwapForm = () => {
         liveApp={
           swapLiveAppManifestID && manifest ? (
             <SwapWebView
-              sourceCurrencyId={sourceCurrency?.id}
-              targetCurrencyId={targetCurrency?.id}
+              setAmountToLiveApp={setAmountToLiveApp}
+              sourceCurrency={sourceCurrency}
+              targetCurrency={targetCurrency}
               manifest={manifest}
               swapState={swapWebProps}
               // When live app crash, it should disable live app and fall back to native UI

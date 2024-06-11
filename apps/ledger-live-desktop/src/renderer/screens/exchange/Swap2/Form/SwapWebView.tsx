@@ -30,6 +30,7 @@ import { Box, Button } from "@ledgerhq/react-ui";
 import { t } from "i18next";
 import { usePTXCustomHandlers } from "~/renderer/components/WebPTXPlayer/CustomHandlers";
 import { captureException } from "~/sentry/internal";
+import { CryptoCurrency, TokenCurrency } from "@ledgerhq/types-cryptoassets";
 
 export class UnableToLoadSwapLiveError extends Error {
   constructor(message: string) {
@@ -65,8 +66,9 @@ export type SwapWebProps = {
   manifest: LiveAppManifest;
   swapState?: Partial<SwapProps>;
   liveAppUnavailable(): void;
-  sourceCurrencyId?: string;
-  targetCurrencyId?: string;
+  sourceCurrency?: TokenCurrency | CryptoCurrency;
+  targetCurrency?: TokenCurrency | CryptoCurrency;
+  setAmountToLiveApp: React.Dispatch<React.SetStateAction<BigNumber | undefined>>;
 };
 
 export const SwapWebManifestIDs = {
@@ -96,8 +98,9 @@ const SwapWebView = ({
   manifest,
   swapState,
   liveAppUnavailable,
-  sourceCurrencyId,
-  targetCurrencyId,
+  sourceCurrency,
+  targetCurrency,
+  setAmountToLiveApp,
 }: SwapWebProps) => {
   const {
     colors: {
@@ -138,6 +141,17 @@ const SwapWebView = ({
       ...customPTXHandlers,
       "custom.swapStateGet": () => {
         return Promise.resolve(swapState);
+      },
+      "custom.setQuote": (_quotes: { params?: { amountTo: number } }) => {
+        if (!_quotes.params?.amountTo) {
+          setAmountToLiveApp(undefined);
+        }
+
+        const toUnit = targetCurrency?.units[0];
+        if (toUnit && _quotes?.params?.amountTo) {
+          setAmountToLiveApp(BigNumber(_quotes?.params?.amountTo).times(10 ** toUnit.magnitude));
+        }
+        return Promise.resolve();
       },
       // TODO: when we need bidirectional communication
       // "custom.swapStateSet": (params: CustomHandlersParams<unknown>) => {
@@ -209,8 +223,8 @@ const SwapWebView = ({
 
     const swapParams = {
       provider: swapState?.provider,
-      from: sourceCurrencyId,
-      to: targetCurrencyId,
+      from: sourceCurrency?.id,
+      to: targetCurrency?.id,
       amountFrom: swapState?.fromAmount,
       loading: swapState?.loading,
       addressFrom: addressFrom,
@@ -235,8 +249,8 @@ const SwapWebView = ({
     swapState?.fromAmount,
     swapState?.loading,
     swapState?.provider,
-    targetCurrencyId,
-    sourceCurrencyId,
+    targetCurrency?.id,
+    sourceCurrency?.id,
   ]);
 
   // return loader???
