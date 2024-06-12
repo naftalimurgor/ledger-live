@@ -42,6 +42,7 @@ import SwapWebView, {
   SwapWebProps,
   useSwapLiveAppManifestID,
 } from "./SwapWebView";
+import { useQuoteState } from "../hooks/useQuoteState";
 
 const DAPP_PROVIDERS = ["paraswap", "oneinch", "moonpay"];
 
@@ -443,13 +444,10 @@ const SwapForm = () => {
     getExchangeSDKParams,
     getProviderRedirectURLSearch,
   });
-  const [amountToLiveApp, setAmountToLiveApp] = useState<BigNumber | undefined>(undefined);
-  const amountTo = useMemo(() => {
-    if (swapLiveAppManifestID?.startsWith(SwapWebManifestIDs.Demo1)) {
-      return amountToLiveApp;
-    }
-    return exchangeRate?.toAmount;
-  }, [swapLiveAppManifestID, exchangeRate?.toAmount, amountToLiveApp]);
+  const [quoteState, setQuoteState] = useQuoteState({
+    swapWebProps,
+    native: { amountTo: exchangeRate?.toAmount, swapError, swapWarning },
+  });
 
   return (
     <Wrapper>
@@ -459,13 +457,13 @@ const SwapForm = () => {
         toAccount={swapTransaction.swap.to.account}
         fromAmount={swapTransaction.swap.from.amount}
         toCurrency={targetCurrency}
-        toAmount={amountTo}
+        toAmount={quoteState.amountTo}
         setFromAccount={setFromAccount}
         setFromAmount={setFromAmount}
         setToCurrency={setToCurrency}
         isMaxEnabled={swapTransaction.swap.isMaxEnabled}
         toggleMax={toggleMax}
-        fromAmountError={swapError}
+        fromAmountError={quoteState.swapError}
         fromAmountWarning={swapWarning}
         isSwapReversable={swapTransaction.swap.isSwapReversable}
         reverseSwap={reverseSwap}
@@ -481,7 +479,7 @@ const SwapForm = () => {
         liveApp={
           swapLiveAppManifestID && manifest ? (
             <SwapWebView
-              setAmountToLiveApp={setAmountToLiveApp}
+              setQuoteState={setQuoteState}
               sourceCurrency={sourceCurrency}
               targetCurrency={targetCurrency}
               manifest={manifest}

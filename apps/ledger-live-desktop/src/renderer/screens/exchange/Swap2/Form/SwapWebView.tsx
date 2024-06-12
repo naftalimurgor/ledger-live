@@ -31,6 +31,9 @@ import { t } from "i18next";
 import { usePTXCustomHandlers } from "~/renderer/components/WebPTXPlayer/CustomHandlers";
 import { captureException } from "~/sentry/internal";
 import { CryptoCurrency, TokenCurrency } from "@ledgerhq/types-cryptoassets";
+import { UseQuoteState } from "../hooks/useQuoteState";
+import { SwapExchangeRateAmountTooLow } from "@ledgerhq/live-common/errors";
+import { formatCurrencyUnit } from "@ledgerhq/live-common/currencies/index";
 
 export class UnableToLoadSwapLiveError extends Error {
   constructor(message: string) {
@@ -68,7 +71,7 @@ export type SwapWebProps = {
   liveAppUnavailable(): void;
   sourceCurrency?: TokenCurrency | CryptoCurrency;
   targetCurrency?: TokenCurrency | CryptoCurrency;
-  setAmountToLiveApp: React.Dispatch<React.SetStateAction<BigNumber | undefined>>;
+  setQuoteState: React.Dispatch<React.SetStateAction<UseQuoteState>>;
 };
 
 export const SwapWebManifestIDs = {
@@ -100,7 +103,7 @@ const SwapWebView = ({
   liveAppUnavailable,
   sourceCurrency,
   targetCurrency,
-  setAmountToLiveApp,
+  setQuoteState,
 }: SwapWebProps) => {
   const {
     colors: {
@@ -142,14 +145,57 @@ const SwapWebView = ({
       "custom.swapStateGet": () => {
         return Promise.resolve(swapState);
       },
-      "custom.setQuote": (_quotes: { params?: { amountTo: number } }) => {
-        if (!_quotes.params?.amountTo) {
-          setAmountToLiveApp(undefined);
+      "custom.setQuote": (quote: {
+        params?: {
+          amountTo?: number;
+          code?: string;
+          parameter: { minAmount: string; maxAmount: string };
+        };
+      }) => {
+        const toUnit = targetCurrency?.units[0];
+        const fromUnit = sourceCurrency?.units[0];
+        if (quote.params?.code && fromUnit) {
+          switch (quote.params.code) {
+            case "minAmountError":
+              setQuoteState({
+                amountTo: undefined,
+                swapError: new SwapExchangeRateAmountTooLow(undefined, {
+                  minAmountFromFormatted: formatCurrencyUnit(
+                    fromUnit,
+                    new BigNumber(quote.params.parameter.minAmount).times(10 ** fromUnit.magnitude),
+                    {
+                      alwaysShowSign: false,
+                      disableRounding: true,
+                      showCode: true,
+                    },
+                  ),
+                }),
+                swapWarning: undefined,
+              });
+              break;
+            case "maxAmountError":
+              setQuoteState({
+                amountTo: undefined,
+                swapError: new SwapExchangeRateAmountTooLow(undefined, {
+                  minAmountFromFormatted: formatCurrencyUnit(
+                    fromUnit,
+                    new BigNumber(quote.params.parameter.maxAmount).times(10 ** fromUnit.magnitude),
+                    {
+                      alwaysShowSign: false,
+                      disableRounding: true,
+                      showCode: true,
+                    },
+                  ),
+                }),
+                swapWarning: undefined,
+              });
+              break;
+          }
         }
 
-        const toUnit = targetCurrency?.units[0];
-        if (toUnit && _quotes?.params?.amountTo) {
-          setAmountToLiveApp(BigNumber(_quotes?.params?.amountTo).times(10 ** toUnit.magnitude));
+        if (toUnit && quote?.params?.amountTo) {
+          const amountTo = BigNumber(quote?.params?.amountTo).times(10 ** toUnit.magnitude);
+          setQuoteState({ amountTo, swapError: undefined, swapWarning: undefined });
         }
         return Promise.resolve();
       },
