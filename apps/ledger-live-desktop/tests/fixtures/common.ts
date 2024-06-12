@@ -242,13 +242,6 @@ export const test = base.extend<TestFixtures>({
   ],
 });
 
-test.afterEach(async ({ page }, testInfo) => {
-  if (testInfo.status !== testInfo.expectedStatus) {
-    const screenshot = await page.screenshot();
-    await allure.attachment("Screenshot on Failure", screenshot, "image/png");
-  }
-});
-
 export async function addTestAnnotations(testInfo: TestInfo, ids: string[], name: string) {
   for (const id of ids) {
     await allure.tms(id, `https://ledgerhq.atlassian.net/browse/${id}`);
