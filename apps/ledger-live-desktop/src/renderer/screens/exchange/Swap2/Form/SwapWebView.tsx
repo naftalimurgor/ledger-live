@@ -24,10 +24,7 @@ import {
 import { useRedirectToSwapHistory } from "../utils/index";
 
 import { SwapLiveError } from "@ledgerhq/live-common/exchange/swap/types";
-import { useFeature } from "@ledgerhq/live-common/featureFlags/index";
 import { LiveAppManifest } from "@ledgerhq/live-common/platform/types";
-import { Box, Button } from "@ledgerhq/react-ui";
-import { t } from "i18next";
 import { usePTXCustomHandlers } from "~/renderer/components/WebPTXPlayer/CustomHandlers";
 import { captureException } from "~/sentry/internal";
 
@@ -74,19 +71,6 @@ export const SwapWebManifestIDs = {
   Demo1: "swap-live-app-demo-1",
 };
 
-export const useSwapLiveAppManifestID = () => {
-  const demo0 = useFeature("ptxSwapLiveAppDemoZero");
-  const demo1 = useFeature("ptxSwapLiveAppDemoOne");
-  switch (true) {
-    case demo1?.enabled:
-      return demo1?.params?.manifest_id ?? SwapWebManifestIDs.Demo1;
-    case demo0?.enabled:
-      return demo0?.params?.manifest_id ?? SwapWebManifestIDs.Demo0;
-    default:
-      return null;
-  }
-};
-
 const SwapWebAppWrapper = styled.div`
   width: 100%;
   flex: 1;
@@ -112,12 +96,11 @@ const SwapWebView = ({
   const locale = useSelector(languageSelector);
   const redirectToHistory = useRedirectToSwapHistory();
   const enablePlatformDevTools = useSelector(enablePlatformDevToolsSelector);
-  const manifestID = useSwapLiveAppManifestID();
-  const isDemo1Enabled = manifestID?.startsWith(SwapWebManifestIDs.Demo1);
+
   const hasSwapState = !!swapState;
   const customPTXHandlers = usePTXCustomHandlers(manifest);
 
-  const { fromCurrency, addressFrom, toCurrency, addressTo } = useMemo(() => {
+  const { fromCurrency, addressFrom, addressTo } = useMemo(() => {
     const [, , fromCurrency, addressFrom] =
       getAccountIdFromWalletAccountId(swapState?.fromAccountId || "")?.split(":") || [];
 
@@ -261,23 +244,6 @@ const SwapWebView = ({
       );
     }
   };
-
-  // Keep the previous UI
-  // Display only the disabled swap button
-  if (
-    isDemo1Enabled &&
-    (swapState.error ||
-      swapState.fromAmount === "0" ||
-      !(fromCurrency && addressFrom && toCurrency && addressTo))
-  ) {
-    return (
-      <Box width="100%">
-        <Button width="100%" disabled>
-          {t("sidebar.swap")}
-        </Button>
-      </Box>
-    );
-  }
 
   return (
     <>

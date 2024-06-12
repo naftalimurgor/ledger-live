@@ -19,7 +19,7 @@ const Button = styled(ButtonBase)`
 type SwapMigrationUIProps = {
   liveAppEnabled: boolean;
   liveApp: React.ReactNode;
-  manifestID: string | null;
+  manifestID: string | undefined;
   // Demo 1 props
   pageState: ReturnType<typeof usePageState>;
   swapTransaction: SwapTransactionType;
@@ -44,7 +44,7 @@ export const SwapMigrationUI = (props: SwapMigrationUIProps) => {
 
   const nativeLoadingUI = pageState === "loading" ? <LoadingState /> : null;
   const nativeNetworkFeesUI =
-    pageState === "loaded" ? (
+    pageState === "loaded" || manifestID?.startsWith(SwapWebManifestIDs.Demo1) ? (
       <SwapFormSummary swapTransaction={swapTransaction} provider={provider} />
     ) : null;
 
