@@ -12,16 +12,14 @@ import { Transaction } from "./shared/model/Transaction";
 import { HttpTokenDataSource } from "./token/data/HttpTokenDataSource";
 import { TokenContextLoader } from "./token/domain/TokenContextLoader";
 
-type DefaultContextModuleConstructorArgs =
-  | {
-      loaders: ContextLoader[];
-    }
-  | undefined;
+type DefaultContextModuleConstructorArgs = {
+  loaders: ContextLoader[];
+};
 
 export class DefaultContextModule implements ContextModule {
   private _loaders: ContextLoader[];
 
-  constructor(args: DefaultContextModuleConstructorArgs) {
+  constructor(args?: DefaultContextModuleConstructorArgs) {
     this._loaders = args?.loaders ?? [
       new TokenContextLoader(new HttpTokenDataSource()),
       new NftContextLoader(new HttpNftDataSource()),
