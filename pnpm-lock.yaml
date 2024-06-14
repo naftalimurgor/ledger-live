@@ -5316,18 +5316,27 @@ importers:
       '@ledgerhq/live-env':
         specifier: workspace:*
         version: link:../env
+      '@ledgerhq/live-network':
+        specifier: workspace:*
+        version: link:../live-network
       '@ledgerhq/live-promise':
         specifier: workspace:*
         version: link:../promise
       '@ledgerhq/logs':
         specifier: workspace:*
         version: link:../ledgerjs/packages/logs
+      '@ledgerhq/trustchain':
+        specifier: workspace:*
+        version: link:../trustchain
       '@ledgerhq/types-cryptoassets':
         specifier: workspace:*
         version: link:../ledgerjs/packages/types-cryptoassets
       '@ledgerhq/types-live':
         specifier: workspace:*
         version: link:../ledgerjs/packages/types-live
+      base64-js:
+        specifier: '1'
+        version: 1.5.1
       bignumber.js:
         specifier: '9'
         version: 9.1.2
@@ -5337,6 +5346,9 @@ importers:
       rxjs:
         specifier: '7'
         version: 7.8.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@types/jest':
         specifier: ^29.5.10

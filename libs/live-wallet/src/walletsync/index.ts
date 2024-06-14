@@ -1,0 +1,1 @@
+export { WalletSyncSDK } from "./sdk";
